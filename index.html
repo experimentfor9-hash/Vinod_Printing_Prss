@@ -401,6 +401,65 @@
                 btnElement.disabled = false;
             });
         }
+                // --- 🌟 CUSTOM DYNAMIC FIELDS LOGIC 🌟 ---
+        let customFieldCount = 0;
+
+        function addCustomField() {
+            const labelInput = document.getElementById('customLabel');
+            const labelText = labelInput.value.trim();
+            
+            if (!labelText) {
+                alert("Please enter a field name first! (पहले फ़ील्ड का नाम लिखें)");
+                return;
+            }
+
+            customFieldCount++;
+            const inputId = 'customInp' + customFieldCount;
+            const outputId = 'customOut' + customFieldCount;
+
+            // 1. फॉर्म के अंदर नया इनपुट बॉक्स बनाना
+            const formContainer = document.getElementById('dynamicFormFields');
+            const newFormGroup = document.createElement('div');
+            newFormGroup.className = 'form-group';
+            newFormGroup.style.marginTop = '15px';
+            newFormGroup.innerHTML = `
+                <label style="color: #0f172a;">${labelText}</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="${inputId}" placeholder="Enter ${labelText}" oninput="updateCustomField('${inputId}', '${outputId}')" style="flex: 1;">
+                    <button type="button" onclick="removeCustomField(this, '${outputId}')" style="background:#ef4444; color:white; border:none; border-radius:8px; padding:0 15px; cursor:pointer;" title="Remove this field"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            formContainer.appendChild(newFormGroup);
+
+            // 2. ID कार्ड के अंदर नई लाइन (Row) बनाना
+            const dataBlock = document.querySelector('.id-data-block');
+            const newDataRow = document.createElement('div');
+            newDataRow.className = 'data-row custom-row';
+            newDataRow.id = 'row_' + outputId;
+            newDataRow.innerHTML = `
+                <span class="data-label">${labelText}</span>
+                <span class="data-colon">:</span>
+                <span class="data-value" id="${outputId}">...</span>
+            `;
+            dataBlock.appendChild(newDataRow);
+
+            // इनपुट बॉक्स को वापस खाली करना
+            labelInput.value = '';
+        }
+
+        // टाइप करते ही कार्ड में टेक्स्ट अपडेट करना
+        function updateCustomField(inputId, outputId) {
+            let value = document.getElementById(inputId).value;
+            document.getElementById(outputId).innerText = value || "...";
+        }
+
+        // फ़ील्ड को डिलीट करना (फॉर्म और कार्ड दोनों जगह से)
+        function removeCustomField(buttonElement, outputId) {
+            buttonElement.parentElement.parentElement.remove();
+            const rowToRemove = document.getElementById('row_' + outputId);
+            if (rowToRemove) rowToRemove.remove();
+        }
+        
     </script>
 </body>
 </html>
