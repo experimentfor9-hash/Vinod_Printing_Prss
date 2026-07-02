@@ -171,3 +171,37 @@
     .id-generator-container { grid-template-columns: 1fr; padding: 20px; }
     .form-grid-2 { grid-template-columns: 1fr; }
 }
+/* --- Missing Styles for Headings & Badge --- */
+.sec-title { margin-bottom: 25px; }
+.sec-badge { 
+    background: #e0e7ff; color: #1e40af; padding: 6px 14px; 
+    border-radius: 20px; font-size: 11px; font-weight: 700; 
+    letter-spacing: 1px; display: inline-block; margin-bottom: 12px; 
+}
+.sec-title h2 { margin: 0 0 10px 0; font-weight: 800; font-size: 26px; color: #0f172a; font-family: 'Poppins', sans-serif; }
+.sec-title h2 span { color: #2563eb; }
+.sec-title p { color: #475569; font-size: 14px; font-family: 'Poppins', sans-serif; }
+
+/* Theme Color Input Fix */
+input[type="color"] { border-radius: 8px; border: 1px solid #cbd5e1; outline: none; }
+
+/* --- 📱 MOBILE RESPONSIVENESS FIXES 📱 --- */
+@media (max-width: 768px) {
+    body { overflow-x: hidden; } /* होरिज़ॉन्टल स्क्रॉलिंग बंद करने के लिए */
+    
+    .id-generator-container { 
+        padding: 15px; 
+        grid-template-columns: 1fr; /* मोबाइल पर कार्ड को फ़ॉर्म के नीचे लाने के लिए */
+        gap: 25px; 
+        margin-left: 10px; margin-right: 10px; /* दोनों तरफ बराबर गैप */
+    }
+    
+    .id-form { padding: 15px; }
+    
+    .form-grid-2 { grid-template-columns: 1fr; /* मोबाइल पर 1 लाइन में 1 ही बॉक्स दिखेगा */ }
+    
+    .sec-title { text-align: center; margin-left: 10px; margin-right: 10px; }
+    .sec-title h2 { font-size: 22px; }
+    
+    .id-preview-area { padding: 15px; }
+}
