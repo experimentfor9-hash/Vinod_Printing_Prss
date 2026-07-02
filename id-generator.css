@@ -205,3 +205,50 @@ input[type="color"] { border-radius: 8px; border: 1px solid #cbd5e1; outline: no
     
     .id-preview-area { padding: 15px; }
 }
+/* --- 🔄 LANDSCAPE ORIENTATION STYLES 🔄 --- */
+.id-card-exact.landscape {
+    width: 540px;
+    height: 340px;
+}
+
+/* Landscape Header */
+.id-card-exact.landscape .id-header-bar {
+    height: 65px;
+    padding: 8px 50px;
+}
+.id-card-exact.landscape .id-header-bar h4 { font-size: 14px; margin-bottom: 2px; }
+
+/* Landscape Photo (Left Side) */
+.id-card-exact.landscape .id-photo-block {
+    position: absolute;
+    top: 75px;
+    left: 20px;
+    width: 85px;
+    height: 110px;
+    margin: 0;
+}
+
+/* Landscape Data (Right Side) */
+.id-card-exact.landscape .id-data-block {
+    position: absolute;
+    top: 75px;
+    left: 125px; /* Photo के बगल से शुरू */
+    right: 15px;
+    padding: 0;
+}
+.id-card-exact.landscape .data-row { margin-bottom: 2px; grid-template-columns: 100px 10px 1fr; }
+
+/* Landscape Signatures */
+.id-card-exact.landscape .id-footer-exact {
+    bottom: 12px;
+}
+.id-card-exact.landscape .sig-box { width: 30%; }
+.id-card-exact.landscape .sig-img-container { height: 30px; }
+
+/* Landscape Back Card */
+.id-card-exact.landscape.id-card-back {
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 15px 20px;
+}
+.id-card-exact.landscape.id-card-back .back-header h4 { margin-top: 0; margin-bottom: 10px; }
+.id-card-exact.landscape.id-card-back .return-address { position: static; margin-top: auto; padding: 10px; }
