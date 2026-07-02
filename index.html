@@ -10,9 +10,49 @@
     
     <!-- FontAwesome, html2canvas and Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     
+    <!-- 🌟 NEW: INLINE CSS FOR MOBILE FIXES & LANDSCAPE MODE 🌟 -->
+    <style>
+        /* UI FIXES */
+        .sec-title { margin-bottom: 25px; }
+        .sec-badge {
+            background: #e0e7ff; color: #1e40af; padding: 6px 14px;
+            border-radius: 20px; font-size: 11px; font-weight: 700;
+            letter-spacing: 1px; display: inline-block; margin-bottom: 12px;
+        }
+        .sec-title h2 { margin: 0 0 10px 0; font-weight: 800; font-size: 26px; color: #0f172a; font-family: 'Poppins', sans-serif; }
+        .sec-title h2 span { color: #2563eb; }
+        .sec-title p { color: #475569; font-size: 14px; font-family: 'Poppins', sans-serif; }
+        input[type="color"] { border-radius: 8px; border: 1px solid #cbd5e1; outline: none; width: 100%; }
+        select { border-radius: 8px; border: 1px solid #cbd5e1; outline: none; width: 100%; padding: 12px; font-family: 'Poppins', sans-serif; }
+
+        /* 📱 MOBILE RESPONSIVENESS FIXES */
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+            .id-generator-container { padding: 15px; grid-template-columns: 1fr; gap: 25px; margin-left: 10px; margin-right: 10px; }
+            .id-form { padding: 15px; }
+            .form-grid-2 { grid-template-columns: 1fr; }
+            .sec-title { text-align: center; margin-left: 10px; margin-right: 10px; }
+            .sec-title h2 { font-size: 22px; }
+            .id-preview-area { padding: 15px; overflow-x: auto; }
+        }
+
+        /* 🔄 LANDSCAPE ORIENTATION STYLES */
+        .id-card-exact.landscape { width: 540px; height: 340px; }
+        .id-card-exact.landscape .id-header-bar { height: 65px; padding: 8px 50px; }
+        .id-card-exact.landscape .id-header-bar h4 { font-size: 14px; margin-bottom: 2px; }
+        .id-card-exact.landscape .id-photo-block { position: absolute; top: 75px; left: 20px; width: 85px; height: 110px; margin: 0; }
+        .id-card-exact.landscape .id-data-block { position: absolute; top: 75px; left: 125px; right: 15px; padding: 0; }
+        .id-card-exact.landscape .data-row { margin-bottom: 2px; grid-template-columns: 100px 10px 1fr; }
+        .id-card-exact.landscape .id-footer-exact { bottom: 12px; }
+        .id-card-exact.landscape .sig-box { width: 30%; }
+        .id-card-exact.landscape .sig-img-container { height: 30px; }
+        .id-card-exact.landscape.id-card-back { display: flex; flex-direction: column; justify-content: space-between; padding: 15px 20px; }
+        .id-card-exact.landscape.id-card-back .back-header h4 { margin-top: 0; margin-bottom: 10px; }
+        .id-card-exact.landscape.id-card-back .return-address { position: static; margin-top: auto; padding: 10px; }
+    </style>
 </head>
 <body>
 
@@ -32,7 +72,7 @@
             <div class="sec-title">
                 <span class="sec-badge">Vinod Kumar Bhargav COMMERCIAL PRINT STUDIO</span>
                 <h2>Universal <span>ID Card Generator</span></h2>
-                <p>100% कस्टमाइज़ेबल कार्ड - खुद फ़ील्ड्स जोड़ें और डिलीट करें।</p>
+                <p>100% कस्टमाइज़ेबल कार्ड - खुद फ़ील्ड्स जोड़ें, आकार बदलें और डिलीट करें।</p>
             </div>
 
             <div class="id-generator-container">
@@ -48,31 +88,39 @@
                             <input type="text" id="inpOrgName" placeholder="e.g. ABC Public School" oninput="updateField('inpOrgName', 'outOrgName')">
                         </div>
                         <div class="form-group">
-                            <label>Theme Color</label>
-                            <input type="color" id="inpColor" value="#1e40af" oninput="updateColor()" style="padding: 2px; height: 42px; cursor: pointer;">
+                            <label>Card Orientation (कार्ड का आकार)</label>
+                            <select id="inpOrientation" onchange="toggleOrientation()" style="padding: 11px; background: #f8fafc; font-weight: 600; color: #1e40af;">
+                                <option value="portrait">Portrait (Vertical - 54x86mm)</option>
+                                <option value="landscape">Landscape (Horizontal - 86x54mm)</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Theme Color</label>
+                            <input type="color" id="inpColor" value="#1e40af" oninput="updateColor()" style="padding: 2px; height: 42px; cursor: pointer;">
+                        </div>
                         <div class="form-group">
                             <label>Sub-heading / Tagline</label>
                             <input type="text" id="inpSubHead" placeholder="e.g. Education Department" oninput="updateField('inpSubHead', 'outSubHead')">
                         </div>
-                        <div class="form-group">
-                            <label>Card Watermark (Background)</label>
-                            <input type="file" id="inpWatermark" accept="image/*">
-                        </div>
                     </div>
 
                     <div class="form-grid-2">
                         <div class="form-group">
+                            <label>Card Watermark (Background)</label>
+                            <input type="file" id="inpWatermark" accept="image/*">
+                        </div>
+                        <div class="form-group">
                             <label>Left Logo</label>
                             <input type="file" id="inpLogoLeft" accept="image/*">
                         </div>
-                        <div class="form-group">
-                            <label>Right Logo (Optional)</label>
-                            <input type="file" id="inpLogoRight" accept="image/*">
-                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Right Logo (Optional)</label>
+                        <input type="file" id="inpLogoRight" accept="image/*">
                     </div>
 
                     <!-- DYNAMIC FIELDS SECTION -->
@@ -205,7 +253,7 @@
         // --- SECURITY PIN LOGIC ---
         function checkPin() {
             let enteredPin = document.getElementById("adminPin").value;
-            // यहाँ 12345 की जगह आप अपना पासवर्ड सेट कर सकते हैं
+            // Password Set To: 7891
             if(enteredPin === "7891") {
                 document.getElementById("pinScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
@@ -220,6 +268,21 @@
                 event.preventDefault(); checkPin();
             }
         });
+
+        // --- 🔄 ORIENTATION TOGGLE LOGIC ---
+        function toggleOrientation() {
+            const orient = document.getElementById('inpOrientation').value;
+            const cardFront = document.getElementById('idCardFront');
+            const cardBack = document.getElementById('idCardBack');
+            
+            if (orient === 'landscape') {
+                cardFront.classList.add('landscape');
+                cardBack.classList.add('landscape');
+            } else {
+                cardFront.classList.remove('landscape');
+                cardBack.classList.remove('landscape');
+            }
+        }
 
         // --- FIXED FIELDS LOGIC ---
         function updateField(inputId, outputId) {
@@ -240,7 +303,6 @@
         // --- 🌟 CUSTOM DYNAMIC FIELDS LOGIC 🌟 ---
         let customFieldCount = 0;
 
-        // जब पेज लोड हो, तो समझने के लिए डिफ़ॉल्ट रूप से 'Name' और 'ID No' के फील्ड बना दें (जिन्हें डिलीट भी किया जा सकता है)
         window.addEventListener('DOMContentLoaded', () => {
             addCustomField('Name');
             addCustomField('ID No');
@@ -259,7 +321,6 @@
             const inputId = 'customInp' + customFieldCount;
             const outputId = 'customOut' + customFieldCount;
 
-            // 1. फॉर्म के अंदर नया इनपुट बॉक्स बनाना
             const formContainer = document.getElementById('dynamicFormFields');
             const newFormGroup = document.createElement('div');
             newFormGroup.className = 'form-group custom-field-group';
@@ -273,7 +334,6 @@
             `;
             formContainer.appendChild(newFormGroup);
 
-            // 2. ID कार्ड के अंदर नई लाइन (Row) बनाना
             const dataBlock = document.getElementById('idDataBlock');
             const newDataRow = document.createElement('div');
             newDataRow.className = 'data-row custom-row';
@@ -285,7 +345,6 @@
             `;
             dataBlock.appendChild(newDataRow);
 
-            // इनपुट बॉक्स को वापस खाली करना
             if(!predefinedLabel) {
                 labelInput.value = '';
             }
@@ -345,7 +404,6 @@
                 logging: false
             }).then(canvas => {
                 let org = document.getElementById('inpOrgName').value || "Client";
-                // नाम फ़ाइल में सेव करने के लिए पहले डायनामिक फ़ील्ड का डेटा लेते हैं
                 let firstDynamicInput = document.querySelector('.dynamic-data-input');
                 let name = firstDynamicInput && firstDynamicInput.value ? firstDynamicInput.value : "Employee";
                 
@@ -365,10 +423,14 @@
             });
         }
 
-        // --- PERFECT SIZE PRINT ENGINE (54mm x 86mm) ---
+        // --- PERFECT SIZE PRINT ENGINE (DYNAMIC DUAL ORIENTATION) ---
         function printCard(elementId, btnElement) {
             const originalText = btnElement.innerHTML;
             const element = document.getElementById(elementId);
+            
+            const isLandscape = document.getElementById('inpOrientation').value === 'landscape';
+            const printWidth = isLandscape ? '86mm' : '54mm';
+            const printHeight = isLandscape ? '54mm' : '86mm';
             
             btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Preparing Print...';
             btnElement.style.opacity = '0.8';
@@ -388,9 +450,9 @@
                     <head>
                         <title>Print ID Card</title>
                         <style>
-                            @page { size: 54mm 86mm; margin: 0; }
+                            @page { size: ${printWidth} ${printHeight}; margin: 0; }
                             body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #fff; }
-                            img { width: 54mm; height: 86mm; object-fit: contain; }
+                            img { width: ${printWidth}; height: ${printHeight}; object-fit: contain; }
                             @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
                         </style>
                     </head>
