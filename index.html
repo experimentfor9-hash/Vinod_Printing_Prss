@@ -3,41 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Print Press - ID Card Studio</title>
+    <title>Pro Print Press - Universal ID Studio</title>
     
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="id-generator.css">
     
+    <!-- FontAwesome, html2canvas and Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <!-- 1. SECURITY LOCK SCREEN -->
     <div id="pinScreen">
         <h2><i class="fa-solid fa-print"></i> Print Shop Access</h2>
-        <p>Enter master passcode to access the Studio (Pin: 8877)</p>
+        <p>Enter master passcode to access the Studio</p>
         <input type="password" id="adminPin" placeholder="****" maxlength="4">
         <br>
         <button onclick="checkPin()" class="btn-unlock"><i class="fa-solid fa-key"></i> Unlock Tool</button>
         <p id="pinError" style="color:#ef4444; display:none; margin-top:15px; font-weight:bold; font-size: 14px;">❌ Incorrect Passcode!</p>
     </div>
 
+    <!-- 2. MAIN GENERATOR CONTENT -->
     <div id="mainContent">
         <div class="container section-padding" style="padding-top: 20px;">
             <div class="sec-title">
                 <span class="sec-badge">COMMERCIAL PRINT STUDIO</span>
                 <h2>Universal <span>ID Card Generator</span></h2>
-                <p>CR80 PVC कार्ड प्रिंटर के लिए एकदम सटीक साइज़ (54mm × 86mm) और HD क्वालिटी।</p>
+                <p>100% कस्टमाइज़ेबल कार्ड - खुद फ़ील्ड्स जोड़ें और डिलीट करें।</p>
             </div>
 
             <div class="id-generator-container">
+                <!-- FORM INPUTS -->
                 <div class="id-form">
-                    <h3 style="margin-bottom: 15px; color: #1e40af; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Client Branding</h3>
+                    
+                    <!-- BRANDING SECTION -->
+                    <h3 style="margin-bottom: 15px; color: #1e40af; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">1. Client Branding</h3>
                     
                     <div class="form-grid-2">
                         <div class="form-group">
-                            <label>Organization Name (संस्था का नाम)</label>
+                            <label>Organization Name</label>
                             <input type="text" id="inpOrgName" placeholder="e.g. ABC Public School" oninput="updateField('inpOrgName', 'outOrgName')">
                         </div>
                         <div class="form-group">
@@ -52,7 +58,7 @@
                             <input type="text" id="inpSubHead" placeholder="e.g. Education Department" oninput="updateField('inpSubHead', 'outSubHead')">
                         </div>
                         <div class="form-group">
-                            <label>Card Watermark (Background Logo)</label>
+                            <label>Card Watermark (Background)</label>
                             <input type="file" id="inpWatermark" accept="image/*">
                         </div>
                     </div>
@@ -68,58 +74,34 @@
                         </div>
                     </div>
 
-                    <h3 style="margin: 20px 0 15px 0; color: #1e40af; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">Employee / Student Details</h3>
+                    <!-- DYNAMIC FIELDS SECTION -->
+                    <h3 style="margin: 25px 0 15px 0; color: #1e40af; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">2. ID Card Details (डेटा जोड़ें)</h3>
 
                     <div class="form-group">
                         <label>Passport Size Photo</label>
                         <input type="file" id="inpPhoto" accept="image/*">
                     </div>
 
-                    <div class="form-grid-2">
-                        <div class="form-group">
-                            <label>Name (नाम)</label>
-                            <input type="text" id="inpName" placeholder="Name" oninput="updateField('inpName', 'outName')">
+                    <!-- 🌟 DYNAMIC FIELD GENERATOR 🌟 -->
+                    <div style="margin-bottom: 25px; border: 2px dashed #cbd5e1; padding: 15px; border-radius: 12px; background: #f8fafc;">
+                        <h4 style="color: #1e40af; margin-top: 0; margin-bottom: 12px; font-size: 14px;"><i class="fa-solid fa-layer-group"></i> Create New Field (नया फ़ील्ड बनाएँ)</h4>
+                        <div class="form-grid-2">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <input type="text" id="customLabel" placeholder="e.g. Name, Roll No, DOB, Address">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <button type="button" onclick="addCustomField()" style="width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;"><i class="fa-solid fa-plus-circle"></i> Add to Card</button>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Father's Name (पिता का नाम)</label>
-                            <input type="text" id="inpFather" placeholder="Father's name" oninput="updateField('inpFather', 'outFather')">
-                        </div>
+                        
+                        <!-- यहाँ आपके बनाए हुए नए फ़ील्ड्स दिखाई देंगे -->
+                        <div id="dynamicFormFields"></div> 
                     </div>
 
-                    <div class="form-grid-2">
-                        <div class="form-group">
-                            <label>Date of Birth (जन्म तिथि)</label>
-                            <input type="date" id="inpDob" onchange="updateDate('inpDob', 'outDob')">
-                        </div>
-                        <div class="form-group">
-                            <label>Designation / Class</label>
-                            <input type="text" id="inpDesig" placeholder="Post or Class" oninput="updateField('inpDesig', 'outDesig')">
-                        </div>
-                    </div>
+                    <!-- SIGNATURES & BACK CARD -->
+                    <h3 style="margin: 25px 0 15px 0; color: #1e40af; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px;">3. Signatures & Back Card</h3>
 
                     <div class="form-grid-2">
-                        <div class="form-group">
-                            <label>ID Number (कोड)</label>
-                            <input type="text" id="inpEmpId" placeholder="ID Number" oninput="updateField('inpEmpId', 'outEmpId')">
-                        </div>
-                        <div class="form-group">
-                            <label>Mobile No (मोबाइल नंबर)</label>
-                            <input type="text" id="inpMobile" placeholder="mobile number" oninput="updateField('inpMobile', 'outMobile')">
-                        </div>
-                    </div>
-
-                    <div class="form-grid-2">
-                        <div class="form-group">
-                            <label>Blood Group</label>
-                            <input type="text" id="inpBlood" placeholder="Enter blood group" oninput="updateField('inpBlood', 'outBlood')">
-                        </div>
-                        <div class="form-group">
-                            <label>Address / City (पता)</label>
-                            <input type="text" id="inpAddress" placeholder="short address" oninput="updateField('inpAddress', 'outAddress')">
-                        </div>
-                    </div>
-                    
-                    <div class="form-grid-2" style="margin-top: 15px; border-top: 1px solid #cbd5e1; padding-top: 15px;">
                         <div class="form-group">
                             <label style="color: #358ced;">Holder's Signature</label>
                             <input type="file" id="inpEmpSign" accept="image/*">
@@ -136,13 +118,17 @@
                     </div>
                 </div>
 
+                <!-- LIVE EXACT PREVIEW -->
                 <div class="id-preview-area">
                     <div class="cards-layout">
                         
+                        <!-- 1. FRONT CARD -->
                         <div class="card-wrapper">
                             <div class="id-card-exact" id="idCardFront">
+                                <!-- Dynamic Watermark -->
                                 <div id="cardWatermark" class="card-watermark"></div>
 
+                                <!-- HEADER TEXT WITH EMBEDDED LOGOS -->
                                 <div class="id-header-bar" id="outHeaderBar">
                                     <img id="outLogoLeft" src="" style="display:none;" class="header-logo-left" alt="Left Logo">
                                     <img id="outLogoRight" src="" style="display:none;" class="header-logo-right" alt="Right Logo">
@@ -155,17 +141,12 @@
                                     <img id="outPhoto" src="https://via.placeholder.com/105x130/e2e8f0/94a3b8?text=PHOTO" alt="Staff">
                                 </div>
                                 
-                                <div class="id-data-block">
-                                    <div class="data-row"><span class="data-label">Name</span><span class="data-colon">:</span><span class="data-value" id="outName">JOHN DOE</span></div>
-                                    <div class="data-row"><span class="data-label">Father's Name</span><span class="data-colon">:</span><span class="data-value" id="outFather">ROBERT DOE</span></div>
-                                    <div class="data-row"><span class="data-label">D.O.B.</span><span class="data-colon">:</span><span class="data-value" id="outDob">01/01/2000</span></div>
-                                    <div class="data-row"><span class="data-label">Designation</span><span class="data-colon">:</span><span class="data-value" id="outDesig">STAFF</span></div>
-                                    <div class="data-row"><span class="data-label">ID Number</span><span class="data-colon">:</span><span class="data-value" id="outEmpId">EMP001</span></div>
-                                    <div class="data-row"><span class="data-label">Mobile No</span><span class="data-colon">:</span><span class="data-value" id="outMobile">9876543210</span></div>
-                                    <div class="data-row"><span class="data-label">Blood Group</span><span class="data-colon">:</span><span class="data-value" id="outBlood">O+</span></div>
-                                    <div class="data-row"><span class="data-label">Address</span><span class="data-colon">:</span><span class="data-value" id="outAddress">NEW YORK, USA</span></div>
+                                <!-- 🌟 DYNAMIC DATA BLOCK 🌟 -->
+                                <div class="id-data-block" id="idDataBlock">
+                                    <!-- All custom fields will generate here automatically -->
                                 </div>
 
+                                <!-- Signatures Base -->
                                 <div class="id-footer-exact">
                                     <div class="sig-box">
                                         <div class="sig-img-container">
@@ -184,36 +165,12 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Front Card Buttons -->
                             <button class="btn-download-exact" onclick="downloadCard('idCardFront', 'Front', this)"><i class="fa-solid fa-download"></i> Download Front Side</button>
                             <button class="btn-print-exact" onclick="printCard('idCardFront', this)"><i class="fa-solid fa-print"></i> Print Front Side (HD)</button>
                         </div>
-                                            <div class="form-grid-2">
-                        <div class="form-group">
-                            <label>Blood Group</label>
-                            <input type="text" id="inpBlood" placeholder="Enter blood group" oninput="updateField('inpBlood', 'outBlood')">
-                        </div>
-                        <div class="form-group">
-                            <label>Address / City (पता)</label>
-                            <input type="text" id="inpAddress" placeholder="short address" oninput="updateField('inpAddress', 'outAddress')">
-                        </div>
-                                            </div>
-                                            <!-- 🌟 NEW: ADD CUSTOM FIELDS DYNAMICALLY 🌟 -->
-                    <div style="margin-top: 25px; border: 2px dashed #cbd5e1; padding: 15px; border-radius: 12px; background: #f8fafc;">
-                        <h4 style="color: #1e40af; margin-top: 0; margin-bottom: 12px; font-size: 14px;"><i class="fa-solid fa-plus"></i> Add Custom Field (कस्टम फ़ील्ड जोड़ें)</h4>
-                        <div class="form-grid-2">
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <input type="text" id="customLabel" placeholder="e.g. Roll No, Validity, Shift">
-                            </div>
-                            <div class="form-group" style="margin-bottom: 0;">
-                                <button type="button" onclick="addCustomField()" style="width: 100%; padding: 12px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s;"><i class="fa-solid fa-plus-circle"></i> Add to Card</button>
-                            </div>
-                        </div>
-                        
-                        <!-- यहाँ आपके बनाए हुए नए फ़ील्ड्स दिखाई देंगे -->
-                        <div id="dynamicFormFields"></div> 
-                    </div>
-                        
 
+                        <!-- 2. BACK CARD -->
                         <div class="card-wrapper">
                             <div class="id-card-exact id-card-back" id="idCardBack">
                                 <div class="back-header">
@@ -230,6 +187,7 @@
                                     <div id="outReturnAddr" class="sub-text" style="white-space: pre-wrap; font-weight: 700; color: #0f172a;">123 Business Park, Sector 4<br>New Delhi - 110001<br>📞 Contact: 011-23456789</div>
                                 </div>
                             </div>
+                            <!-- Back Card Buttons -->
                             <button class="btn-download-exact" onclick="downloadCard('idCardBack', 'Back', this)" style="background: #1e40af;"><i class="fa-solid fa-download"></i> Download Back Side</button>
                             <button class="btn-print-exact" onclick="printCard('idCardBack', this)"><i class="fa-solid fa-print"></i> Print Back Side (HD)</button>
                         </div>
@@ -241,13 +199,13 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     <script>
-        // --- SECURITY PIN LOGIC (PIN: 8877) ---
-        const ENCODED_PIN = "ODg3Nw=="; 
-
+        // --- SECURITY PIN LOGIC ---
         function checkPin() {
             let enteredPin = document.getElementById("adminPin").value;
-            if(btoa(enteredPin) === ENCODED_PIN) {
+            // यहाँ 12345 की जगह आप अपना पासवर्ड सेट कर सकते हैं
+            if(enteredPin === "12345") {
                 document.getElementById("pinScreen").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
             } else {
@@ -262,19 +220,12 @@
             }
         });
 
-        // --- ID GENERATOR LOGIC ---
+        // --- FIXED FIELDS LOGIC ---
         function updateField(inputId, outputId) {
             let value = document.getElementById(inputId).value;
             if(value === "") {
                 if(inputId === 'inpOrgName') value = "YOUR ORGANIZATION";
                 if(inputId === 'inpSubHead') value = "Your Tagline or Sub-heading";
-                if(inputId === 'inpName') value = "JOHN DOE";
-                if(inputId === 'inpFather') value = "ROBERT DOE";
-                if(inputId === 'inpDesig') value = "STAFF";
-                if(inputId === 'inpEmpId') value = "EMP001";
-                if(inputId === 'inpMobile') value = "9876543210";
-                if(inputId === 'inpBlood') value = "O+";
-                if(inputId === 'inpAddress') value = "NEW YORK, USA";
                 if(inputId === 'inpReturnAddr') value = "123 Business Park, Sector 4\nNew Delhi - 110001\n📞 Contact: 011-23456789";
             }
             document.getElementById(outputId).innerText = value;
@@ -285,14 +236,69 @@
             document.getElementById('outHeaderBar').style.background = color;
         }
 
-        function updateDate(inputId, outputId) {
-            let dVal = document.getElementById(inputId).value;
-            if(dVal) {
-                let p = dVal.split('-');
-                document.getElementById(outputId).innerText = `${p[2]}/${p[1]}/${p[0]}`;
-            } else {
-                document.getElementById(outputId).innerText = "01/01/2000";
+        // --- 🌟 CUSTOM DYNAMIC FIELDS LOGIC 🌟 ---
+        let customFieldCount = 0;
+
+        // जब पेज लोड हो, तो समझने के लिए डिफ़ॉल्ट रूप से 'Name' और 'ID No' के फील्ड बना दें (जिन्हें डिलीट भी किया जा सकता है)
+        window.addEventListener('DOMContentLoaded', () => {
+            addCustomField('Name');
+            addCustomField('ID No');
+        });
+
+        function addCustomField(predefinedLabel = null) {
+            const labelInput = document.getElementById('customLabel');
+            const labelText = predefinedLabel || labelInput.value.trim();
+            
+            if (!labelText) {
+                alert("Please enter a field name first! (पहले फ़ील्ड का नाम लिखें)");
+                return;
             }
+
+            customFieldCount++;
+            const inputId = 'customInp' + customFieldCount;
+            const outputId = 'customOut' + customFieldCount;
+
+            // 1. फॉर्म के अंदर नया इनपुट बॉक्स बनाना
+            const formContainer = document.getElementById('dynamicFormFields');
+            const newFormGroup = document.createElement('div');
+            newFormGroup.className = 'form-group custom-field-group';
+            newFormGroup.style.marginTop = '12px';
+            newFormGroup.innerHTML = `
+                <label style="color: #0f172a;">${labelText}</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="${inputId}" class="dynamic-data-input" placeholder="Enter ${labelText}" oninput="updateCustomField('${inputId}', '${outputId}')" style="flex: 1;">
+                    <button type="button" onclick="removeCustomField(this, '${outputId}')" style="background:#ef4444; color:white; border:none; border-radius:8px; padding:0 15px; cursor:pointer;" title="Remove this field"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `;
+            formContainer.appendChild(newFormGroup);
+
+            // 2. ID कार्ड के अंदर नई लाइन (Row) बनाना
+            const dataBlock = document.getElementById('idDataBlock');
+            const newDataRow = document.createElement('div');
+            newDataRow.className = 'data-row custom-row';
+            newDataRow.id = 'row_' + outputId;
+            newDataRow.innerHTML = `
+                <span class="data-label">${labelText}</span>
+                <span class="data-colon">:</span>
+                <span class="data-value" id="${outputId}">...</span>
+            `;
+            dataBlock.appendChild(newDataRow);
+
+            // इनपुट बॉक्स को वापस खाली करना
+            if(!predefinedLabel) {
+                labelInput.value = '';
+            }
+        }
+
+        function updateCustomField(inputId, outputId) {
+            let value = document.getElementById(inputId).value;
+            document.getElementById(outputId).innerText = value || "...";
+        }
+
+        function removeCustomField(buttonElement, outputId) {
+            buttonElement.parentElement.parentElement.remove();
+            const rowToRemove = document.getElementById('row_' + outputId);
+            if (rowToRemove) rowToRemove.remove();
         }
 
         // Image Upload Handlers
@@ -337,8 +343,11 @@
                 backgroundColor: "#ffffff",
                 logging: false
             }).then(canvas => {
-                let name = document.getElementById('inpName').value || "Employee";
                 let org = document.getElementById('inpOrgName').value || "Client";
+                // नाम फ़ाइल में सेव करने के लिए पहले डायनामिक फ़ील्ड का डेटा लेते हैं
+                let firstDynamicInput = document.querySelector('.dynamic-data-input');
+                let name = firstDynamicInput && firstDynamicInput.value ? firstDynamicInput.value : "Employee";
+                
                 const triggerLink = document.createElement('a');
                 triggerLink.download = `${org}_ID_${name.replace(/ /g, "_")}_${side}.png`;
                 triggerLink.href = canvas.toDataURL('image/png');
@@ -401,65 +410,6 @@
                 btnElement.disabled = false;
             });
         }
-                // --- 🌟 CUSTOM DYNAMIC FIELDS LOGIC 🌟 ---
-        let customFieldCount = 0;
-
-        function addCustomField() {
-            const labelInput = document.getElementById('customLabel');
-            const labelText = labelInput.value.trim();
-            
-            if (!labelText) {
-                alert("Please enter a field name first! (पहले फ़ील्ड का नाम लिखें)");
-                return;
-            }
-
-            customFieldCount++;
-            const inputId = 'customInp' + customFieldCount;
-            const outputId = 'customOut' + customFieldCount;
-
-            // 1. फॉर्म के अंदर नया इनपुट बॉक्स बनाना
-            const formContainer = document.getElementById('dynamicFormFields');
-            const newFormGroup = document.createElement('div');
-            newFormGroup.className = 'form-group';
-            newFormGroup.style.marginTop = '15px';
-            newFormGroup.innerHTML = `
-                <label style="color: #0f172a;">${labelText}</label>
-                <div style="display:flex; gap:10px;">
-                    <input type="text" id="${inputId}" placeholder="Enter ${labelText}" oninput="updateCustomField('${inputId}', '${outputId}')" style="flex: 1;">
-                    <button type="button" onclick="removeCustomField(this, '${outputId}')" style="background:#ef4444; color:white; border:none; border-radius:8px; padding:0 15px; cursor:pointer;" title="Remove this field"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            `;
-            formContainer.appendChild(newFormGroup);
-
-            // 2. ID कार्ड के अंदर नई लाइन (Row) बनाना
-            const dataBlock = document.querySelector('.id-data-block');
-            const newDataRow = document.createElement('div');
-            newDataRow.className = 'data-row custom-row';
-            newDataRow.id = 'row_' + outputId;
-            newDataRow.innerHTML = `
-                <span class="data-label">${labelText}</span>
-                <span class="data-colon">:</span>
-                <span class="data-value" id="${outputId}">...</span>
-            `;
-            dataBlock.appendChild(newDataRow);
-
-            // इनपुट बॉक्स को वापस खाली करना
-            labelInput.value = '';
-        }
-
-        // टाइप करते ही कार्ड में टेक्स्ट अपडेट करना
-        function updateCustomField(inputId, outputId) {
-            let value = document.getElementById(inputId).value;
-            document.getElementById(outputId).innerText = value || "...";
-        }
-
-        // फ़ील्ड को डिलीट करना (फॉर्म और कार्ड दोनों जगह से)
-        function removeCustomField(buttonElement, outputId) {
-            buttonElement.parentElement.parentElement.remove();
-            const rowToRemove = document.getElementById('row_' + outputId);
-            if (rowToRemove) rowToRemove.remove();
-        }
-        
     </script>
 </body>
 </html>
